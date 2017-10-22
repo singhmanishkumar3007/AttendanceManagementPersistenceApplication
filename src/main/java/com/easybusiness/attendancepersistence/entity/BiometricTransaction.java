@@ -26,7 +26,7 @@ public class BiometricTransaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long transactionId;
 
-    @ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_DEVICE_ID")
     private UserDeviceMap userDeviceMap;
     

@@ -26,7 +26,7 @@ public class UserDeviceEffort implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ACTIVITY_ID")
     private Activity activity;
 
@@ -38,7 +38,7 @@ public class UserDeviceEffort implements Serializable {
     @JoinColumn(name = "TASK_ID")
     private Task task;
 
-    @ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ATTENDANCE_ID")
     private BiometricTransaction biometricTransaction;
 

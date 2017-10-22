@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.RollbackException;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -68,13 +69,19 @@ public class UserDeviceEffortDao {
 	return userDeviceEffortRepository.findById(id);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,noRollbackFor=RollbackException.class)
     public void addUserDeviceEffort(UserDeviceEffort userDeviceEffort) {
 
 	LOGGER.info("in dao for mapping user device effort");
+	try{
 	LOGGER.info("size is " + userDeviceEffortRepository.findByUserAndEffortDateAndTask(userDeviceEffort.getUser(),userDeviceEffort.getEffortDate(),userDeviceEffort.getTask()).size());
 	if (userDeviceEffortRepository.findByUserAndEffortDateAndTask(userDeviceEffort.getUser(),userDeviceEffort.getEffortDate(),userDeviceEffort.getTask()).size() > 0) {
 	    userDeviceEffort.setId(userDeviceEffortRepository.findByUserAndEffortDateAndTask(userDeviceEffort.getUser(),userDeviceEffort.getEffortDate(),userDeviceEffort.getTask()).get(0).getId());
+	}
+	}
+	catch(Exception e)
+	{
+	    LOGGER.error("no effort already present {}",e);
 	}
 	userDeviceEffortRepository.addUserDeviceEffort(userDeviceEffort);
 	LOGGER.info("UserDeviceEffort added successfully " + userDeviceEffort.toString());
